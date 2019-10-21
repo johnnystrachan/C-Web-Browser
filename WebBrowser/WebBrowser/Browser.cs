@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Net;
+using System.IO;
+
+namespace WebBrowser
+{
+    public partial class Browser : Form
+    {
+        string url;
+        public Browser()
+        {
+            InitializeComponent();
+        }
+
+
+        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void url_box_TextChanged(object sender, EventArgs e)
+        {
+           
+           
+        }
+
+        private void url_box_keyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ConnectionHandler handler = new ConnectionHandler();
+                this.html_box.Text = handler.handle(this.url_box.Text);
+            }
+        }
+
+        private void html_box_TextChanged(object sender, EventArgs e)
+        {
+           
+       
+        }
+
+        private void navigate_button_Click_1(object sender, EventArgs e)
+        {
+            ConnectionHandler handler = new ConnectionHandler();
+  
+            this.html_box.Text = handler.handle(this.url_box.Text);
+        }
+
+        //generate fake URLs using https://webhook.site
+       
+       
+    }
+}
