@@ -56,6 +56,7 @@
             this.forward_button.TabIndex = 3;
             this.forward_button.Text = "Forward";
             this.forward_button.UseVisualStyleBackColor = true;
+            this.forward_button.Click += new System.EventHandler(this.forward_button_Click);
             // 
             // refresh_button
             // 

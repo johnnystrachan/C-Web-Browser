@@ -64,8 +64,13 @@ namespace WebBrowser
             this.html_box.Text = handler.handle(this.url_box.Text);
         }
 
+        private void forward_button_Click(object sender, EventArgs e)
+        {
+
+        }
+
         //generate fake URLs using https://webhook.site
-       
-       
+
+
     }
 }
