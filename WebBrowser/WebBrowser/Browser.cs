@@ -15,6 +15,7 @@ namespace WebBrowser
     public partial class Browser : Form
     {
         string url;
+        ConnectionHandler handler = new ConnectionHandler();
         public Browser()
         {
             InitializeComponent();
@@ -46,8 +47,9 @@ namespace WebBrowser
         {
             if (e.KeyCode == Keys.Enter)
             {
-                ConnectionHandler handler = new ConnectionHandler();
+                this.handler = new ConnectionHandler();
                 this.html_box.Text = handler.handle(this.url_box.Text);
+                this.url = this.url_box.Text;
             }
         }
 
@@ -59,9 +61,9 @@ namespace WebBrowser
 
         private void navigate_button_Click_1(object sender, EventArgs e)
         {
-            ConnectionHandler handler = new ConnectionHandler();
-  
-            this.html_box.Text = handler.handle(this.url_box.Text);
+           
+            this.html_box.Text = this.handler.handle(this.url_box.Text);
+            this.url = this.url_box.Text;
         }
 
         private void forward_button_Click(object sender, EventArgs e)
@@ -69,6 +71,31 @@ namespace WebBrowser
 
         }
 
+        private void refresh_button_Click(object sender, EventArgs e)
+        {
+            this.html_box.Text = this.handler.handle(this.url_box.Text);
+        }
+
+        private void menu_button_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private bool notFavourite = true;
+
+        private void favourite_button_Click_1(object sender, EventArgs e)
+        {
+            if (!notFavourite)
+            {
+                favourite_button.BackgroundImage = Properties.Resources.star_black;
+                notFavourite = true;
+            }
+            else
+            {
+                favourite_button.BackgroundImage = Properties.Resources.star_yellow;
+                notFavourite = false;
+            }
+        }
         //generate fake URLs using https://webhook.site
 
 

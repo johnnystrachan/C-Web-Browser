@@ -15,37 +15,67 @@ namespace WebBrowser
 
         public string handle(string s)
         {
-            // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create(s);
-            // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response.
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            // Display the status.
-            //Console.WriteLine(response.StatusDescription);
-            // Get the stream containing content returned by the server.
-            Stream dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.
-           // Console.WriteLine(responseFromServer);
-            // Cleanup the streams and the response.
-            reader.Close();
-            dataStream.Close();
-            response.Close();
-            return responseFromServer;
+            // Create a request for the URL. 
+            if (this.format(s))
+            {
+                WebRequest request = WebRequest.Create(s);
+                // If required by the server, set the credentials.
+                request.Credentials = CredentialCache.DefaultCredentials;
+                // Get the response.
+                HttpWebResponse response;
+                try
+                {
+                 response = (HttpWebResponse)request.GetResponse();
+                }catch(WebException e)
+                {
+                    var errorResponse = e.Response as HttpWebResponse;
+                    return this.handleNotOK(errorResponse.StatusCode, s);
+                }
+                // Get response as stream
+                Stream dataStream = response.GetResponseStream();
+                // Open stream and read 
+                StreamReader reader = new StreamReader(dataStream);     
+                string responseFromServer = reader.ReadToEnd();
+            
+                //important to clean up!
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+                return response.StatusCode+System.Environment.NewLine+responseFromServer;
+            }
+            return "Invalid URL. Try formatting it as 'http://www.website.suffix'";
         }
 
-        public string format(string s)
+        public bool format(string s)
        {
             //(((ftp|http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?
-            Regex regex = new Regex(@"(((ftp|http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
+            var regex = @"(((http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
+            var match = Regex.Match(s, regex, RegexOptions.IgnoreCase);
+            if (!match.Success)
+            {
+                Console.WriteLine("Npoe");
+                return false;
+            }else
+            {
+                return true;
+            }
 
         }
 
+        public string handleNotOK(System.Net.HttpStatusCode code, string url)
+        {
 
+            switch (code)
+            {
+                case HttpStatusCode.BadRequest:
+                    return "400 - Bad Request. " + System.Environment.NewLine + "Please check you haven't sent a malformed request and try again.";
+                case HttpStatusCode.Forbidden:
+                    return "403 - Forbidden." + System.Environment.NewLine + "Please check your credentials - it appears you don't have access to this link";
+                case HttpStatusCode.NotFound:
+                    return "404 - Not Found." + System.Environment.NewLine + "Please check that you entered a valid URL - the URL you entered could not be accessed";
+                default:
+                    return code.ToString() + System.Environment.NewLine+ "An error occured. Please check https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for more information on your error"; 
+            }
+        }
     }
 }
