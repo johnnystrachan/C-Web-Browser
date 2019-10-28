@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.back_button = new System.Windows.Forms.Button();
             this.forward_button = new System.Windows.Forms.Button();
             this.refresh_button = new System.Windows.Forms.Button();
@@ -37,6 +38,10 @@
             this.navigate_button = new System.Windows.Forms.Button();
             this.menu_button = new System.Windows.Forms.Button();
             this.favourite_button = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.favouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // back_button
@@ -130,6 +135,28 @@
             this.favourite_button.UseVisualStyleBackColor = true;
             this.favourite_button.Click += new System.EventHandler(this.favourite_button_Click_1);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.favouritesToolStripMenuItem,
+            this.historyToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
+            // 
+            // favouritesToolStripMenuItem
+            // 
+            this.favouritesToolStripMenuItem.Name = "favouritesToolStripMenuItem";
+            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.favouritesToolStripMenuItem.Text = "Favourites";
+            this.favouritesToolStripMenuItem.Click += new System.EventHandler(this.favouritesToolStripMenuItem_Click);
+            // 
+            // historyToolStripMenuItem
+            // 
+            this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.historyToolStripMenuItem.Text = "History";
+            this.historyToolStripMenuItem.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
+            // 
             // Browser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -147,6 +174,7 @@
             this.Name = "Browser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Apex Browser";
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,6 +190,9 @@
         private System.Windows.Forms.TextBox url_box;
         private System.Windows.Forms.Button navigate_button;
         private System.Windows.Forms.Button menu_button;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem favouritesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem historyToolStripMenuItem;
     }
 }
 

@@ -11,6 +11,7 @@ namespace WebBrowser
 {
     class ConnectionHandler
     {
+        History history = new History();
         public ConnectionHandler(){}
 
         public string handle(string s)
@@ -41,6 +42,7 @@ namespace WebBrowser
                 reader.Close();
                 dataStream.Close();
                 response.Close();
+                this.history.AddToHistory(s);
                 return response.StatusCode+System.Environment.NewLine+responseFromServer;
             }
             return "Invalid URL. Try formatting it as 'http://www.website.suffix'";

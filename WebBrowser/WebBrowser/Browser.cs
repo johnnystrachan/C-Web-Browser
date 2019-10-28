@@ -16,6 +16,7 @@ namespace WebBrowser
     {
         string url;
         ConnectionHandler handler = new ConnectionHandler();
+        History history = new History();
         public Browser()
         {
             InitializeComponent();
@@ -78,7 +79,7 @@ namespace WebBrowser
 
         private void menu_button_Click(object sender, EventArgs e)
         {
-
+            contextMenuStrip1.Show(menu_button, new Point(0, menu_button.Height));
         }
 
         private bool notFavourite = true;
@@ -95,6 +96,17 @@ namespace WebBrowser
                 favourite_button.BackgroundImage = Properties.Resources.star_yellow;
                 notFavourite = false;
             }
+        }
+
+        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<String> history = this.history.GetHistory();
+            html_box.Text = String.Join(Environment.NewLine, history);
+        }
+
+        private void favouritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
         }
         //generate fake URLs using https://webhook.site
 
