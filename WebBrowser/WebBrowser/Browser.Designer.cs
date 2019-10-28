@@ -37,10 +37,10 @@
             this.url_box = new System.Windows.Forms.TextBox();
             this.navigate_button = new System.Windows.Forms.Button();
             this.menu_button = new System.Windows.Forms.Button();
-            this.favourite_button = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.favouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.favourite_button = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +52,7 @@
             this.back_button.TabIndex = 2;
             this.back_button.Text = "Back";
             this.back_button.UseVisualStyleBackColor = true;
-            this.back_button.Click += new System.EventHandler(this.button1_Click);
+            this.back_button.Click += new System.EventHandler(this.back_button_Click);
             // 
             // forward_button
             // 
@@ -123,6 +123,27 @@
             this.menu_button.UseVisualStyleBackColor = true;
             this.menu_button.Click += new System.EventHandler(this.menu_button_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.favouritesToolStripMenuItem,
+            this.historyToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 48);
+            // 
+            // favouritesToolStripMenuItem
+            // 
+            this.favouritesToolStripMenuItem.Name = "favouritesToolStripMenuItem";
+            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.favouritesToolStripMenuItem.Text = "Favourites";
+            this.favouritesToolStripMenuItem.Click += new System.EventHandler(this.favouritesToolStripMenuItem_Click);
+            // 
+            // historyToolStripMenuItem
+            // 
+            this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.historyToolStripMenuItem.Text = "History";  
+            // 
             // favourite_button
             // 
             this.favourite_button.BackgroundImage = global::WebBrowser.Properties.Resources.star_black;
@@ -134,28 +155,6 @@
             this.favourite_button.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.favourite_button.UseVisualStyleBackColor = true;
             this.favourite_button.Click += new System.EventHandler(this.favourite_button_Click_1);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.favouritesToolStripMenuItem,
-            this.historyToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
-            // 
-            // favouritesToolStripMenuItem
-            // 
-            this.favouritesToolStripMenuItem.Name = "favouritesToolStripMenuItem";
-            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.favouritesToolStripMenuItem.Text = "Favourites";
-            this.favouritesToolStripMenuItem.Click += new System.EventHandler(this.favouritesToolStripMenuItem_Click);
-            // 
-            // historyToolStripMenuItem
-            // 
-            this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.historyToolStripMenuItem.Text = "History";
-            this.historyToolStripMenuItem.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
             // 
             // Browser
             // 

@@ -20,21 +20,28 @@ namespace WebBrowser
         public Browser()
         {
             InitializeComponent();
+            LoadUserData();  
         }
 
-
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        private void LoadUserData()
         {
+            List<String> history = this.history.GetHistory();
+
+            foreach (var url in history)
+            {
+                var tempURL = historyToolStripMenuItem.DropDownItems.Add(url);
+                tempURL.Click += (s, e) =>
+                {
+                    this.url_box.Text = url;
+                    navigate_button_Click_1(s,e);
+                };
+            }
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void back_button_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
         }
 
@@ -48,9 +55,7 @@ namespace WebBrowser
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.handler = new ConnectionHandler();
-                this.html_box.Text = handler.handle(this.url_box.Text);
-                this.url = this.url_box.Text;
+             navigate_button_Click_1(sender, e);
             }
         }
 
@@ -62,9 +67,9 @@ namespace WebBrowser
 
         private void navigate_button_Click_1(object sender, EventArgs e)
         {
-           
-            this.html_box.Text = this.handler.handle(this.url_box.Text);
             this.url = this.url_box.Text;
+            this.html_box.Text = this.handler.handle(this.url);
+            LoadUserData();
         }
 
         private void forward_button_Click(object sender, EventArgs e)
@@ -90,18 +95,14 @@ namespace WebBrowser
             {
                 favourite_button.BackgroundImage = Properties.Resources.star_black;
                 notFavourite = true;
+                this.html_box.Text = this.url;
             }
             else
             {
                 favourite_button.BackgroundImage = Properties.Resources.star_yellow;
                 notFavourite = false;
+                this.html_box.Text = this.url;
             }
-        }
-
-        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<String> history = this.history.GetHistory();
-            html_box.Text = String.Join(Environment.NewLine, history);
         }
 
         private void favouritesToolStripMenuItem_Click(object sender, EventArgs e)

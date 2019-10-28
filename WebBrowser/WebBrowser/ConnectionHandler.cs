@@ -19,7 +19,16 @@ namespace WebBrowser
             // Create a request for the URL. 
             if (this.format(s))
             {
-                WebRequest request = WebRequest.Create(s);
+                WebRequest request = null;
+                try
+                {
+                    request = WebRequest.Create(s);
+                }
+                catch(Exception e)
+                {
+                    return "An exception occurred, please read the error message below. This is most likely due to a malformed request." + Environment.NewLine + e.Message;
+                }
+                
                 // If required by the server, set the credentials.
                 request.Credentials = CredentialCache.DefaultCredentials;
                 // Get the response.
@@ -50,12 +59,11 @@ namespace WebBrowser
 
         public bool format(string s)
        {
-            //(((ftp|http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?
+            //regex adapted from https://regex101.com/library/zB1sS9
             var regex = @"(((http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
             var match = Regex.Match(s, regex, RegexOptions.IgnoreCase);
             if (!match.Success)
             {
-                Console.WriteLine("Npoe");
                 return false;
             }else
             {
@@ -66,7 +74,6 @@ namespace WebBrowser
 
         public string handleNotOK(System.Net.HttpStatusCode code, string url)
         {
-
             switch (code)
             {
                 case HttpStatusCode.BadRequest:
@@ -79,5 +86,7 @@ namespace WebBrowser
                     return code.ToString() + System.Environment.NewLine+ "An error occured. Please check https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for more information on your error"; 
             }
         }
+
+
     }
 }

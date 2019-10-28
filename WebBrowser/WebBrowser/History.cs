@@ -43,6 +43,8 @@ namespace WebBrowser
             {
                 history.Add(url);   
             }
+
+           // history.Reverse();
             sr.Close();
             return history;
         }
