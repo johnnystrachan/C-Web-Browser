@@ -12,6 +12,8 @@ namespace WebBrowser
     {
 
         private string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "history.txt");
+
+        private LinkedList<string> localHistory;
         public History(){}
        
         public void AddToHistory(string url)
@@ -31,23 +33,55 @@ namespace WebBrowser
                 sw.Write(url+Environment.NewLine);
                 sw.Close();
             }
+
+           if(localHistory.First == null)
+            {
+                localHistory.AddFirst(url);
+            }else
+            {
+                localHistory.AddAfter(localHistory.Last, url);
+            }
          
         }
 
         public List<String> GetHistory()
         {
             List<String> history = new List<String>();
-            StreamReader sr = new StreamReader(path);
-            string url;
-            while ((url = sr.ReadLine()) != null)
+            StreamReader sr = null;
+            try
             {
-                history.Add(url);   
+               sr = new StreamReader(path);
+            }catch(Exception e)
+            {
+                Console.Error.WriteLine(e.Message);
             }
+         
+        
+            string url;
+            if(sr != null)
+            {
+                while ((url = sr.ReadLine()) != null)
+                {
+                    history.Add(url);
+                }
+                sr.Close();
+            }
+          
 
            // history.Reverse();
-            sr.Close();
+           
             return history;
         }
-       
+
+        public void DeleteHistory()
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            return;
+        }
+
+        //need to implement GoBack method
     }
 }

@@ -46,7 +46,7 @@ namespace WebBrowser
                 // Open stream and read 
                 StreamReader reader = new StreamReader(dataStream);     
                 string responseFromServer = reader.ReadToEnd();
-            
+                
                 //important to clean up!
                 reader.Close();
                 dataStream.Close();
@@ -55,6 +55,20 @@ namespace WebBrowser
                 return response.StatusCode+System.Environment.NewLine+responseFromServer;
             }
             return "Invalid URL. Try formatting it as 'http://www.website.suffix'";
+        }
+
+        public string GetTitle(string s)
+        {
+            string regex = @"(?<=<title.*>)([\s\S]*)(?=</title>)";
+            var match = Regex.Match(s, regex, RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                return match.Value;
+            }else
+            {
+                return "Untitled Page";
+            }
+           
         }
 
         public bool format(string s)

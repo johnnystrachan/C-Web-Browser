@@ -43,6 +43,9 @@ namespace WebBrowser
         {
 
 
+            this.url_box.Text = this.history.GoBack();
+            navigate_button_Click_1(sender, e);
+
         }
 
         private void url_box_TextChanged(object sender, EventArgs e)
@@ -69,6 +72,7 @@ namespace WebBrowser
         {
             this.url = this.url_box.Text;
             this.html_box.Text = this.handler.handle(this.url);
+            this.title_label.Text = this.handler.GetTitle(this.html_box.Text);
             LoadUserData();
         }
 
@@ -109,6 +113,21 @@ namespace WebBrowser
         {
            
         }
+
+
+        private void clearFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.history.DeleteHistory();
+            //this.history.GetHistory();
+            LoadUserData();
+        }
+
+
         //generate fake URLs using https://webhook.site
 
 
