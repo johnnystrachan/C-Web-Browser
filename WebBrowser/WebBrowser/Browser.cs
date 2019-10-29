@@ -72,8 +72,17 @@ namespace WebBrowser
         private void navigate_button_Click_1(object sender, EventArgs e)
         {
             _url = url_box.Text;
-            html_box.Text = _handler.Handle(_url);
-            title_label.Text = _handler.GetTitle(html_box.Text);
+            try
+            {
+                html_box.Text = _handler.Handle(_url);
+                title_label.Text = _handler.GetTitle(html_box.Text);
+            }
+            catch (ConnectionHandler.HttpErrorCodeException err)
+            {
+                html_box.Text = err.Message;
+                title_label.Text = "";
+            }
+           
             LoadUserData();
         }
 

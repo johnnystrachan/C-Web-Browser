@@ -142,6 +142,7 @@ namespace WebBrowser
         public void ClearHistory()
         {
           File.Delete(Path);
+          _localHistory = new LinkedList<string>();
         }
     }
 }

@@ -29,7 +29,14 @@ namespace WebBrowser
         public void AddFavourite(string name, string url)
         {
             var newFavourite = new Favourite(url, name);
-            favourites.Add(newFavourite);
+            if (!favourites.Any(fav => fav.URL.Equals(url)))
+            {
+                favourites.Add(newFavourite);
+            }
+            //TODO: Throw error if already in list, handle wherever it needs to be handled
+            //TODO: Home page functionality
+            //TODO: fix duplicate favourites being added
+            //TODO: like everything 
 
             var json = JsonConvert.SerializeObject(favourites, Formatting.Indented);
             File.WriteAllText(FavouritePath, json);
@@ -95,6 +102,7 @@ namespace WebBrowser
         public void ClearFavourites()
         {
             File.Delete(FavouritePath);
+            favourites = new List<Favourite>();
         }
 
     }

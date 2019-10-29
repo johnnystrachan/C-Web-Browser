@@ -58,6 +58,11 @@ namespace WebBrowser
             }catch(WebException e)
             {
                 var errorResponse = e.Response as HttpWebResponse;
+                if (errorResponse == null)
+                {
+                    throw new HttpErrorCodeException(e.Message);
+                }
+                    
                 return HandleNotOk(errorResponse.StatusCode, s);
             }
 
