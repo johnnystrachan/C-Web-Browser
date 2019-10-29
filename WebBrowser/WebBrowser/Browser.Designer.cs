@@ -1,4 +1,6 @@
-﻿namespace WebBrowser
+﻿using System.Windows.Forms;
+
+namespace WebBrowser
 {
     partial class Browser
     {
@@ -42,6 +44,10 @@
             this.favouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clearFavouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,23 +153,47 @@
             // favouritesToolStripMenuItem
             // 
             this.favouritesToolStripMenuItem.Name = "favouritesToolStripMenuItem";
-            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.favouritesToolStripMenuItem.Text = "Favourites";
             this.favouritesToolStripMenuItem.Click += new System.EventHandler(this.favouritesToolStripMenuItem_Click);
             // 
             // historyToolStripMenuItem
             // 
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.historyToolStripMenuItem.Text = "History";
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.favouritesToolStripMenuItem,
-            this.historyToolStripMenuItem});
+            this.historyToolStripMenuItem,
+            this.clearFavouritesToolStripMenuItem,
+            this.clearHistoryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 114);
+            // 
+            // Column1
+            // 
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.Name = "Column2";
+            // 
+            // clearFavouritesToolStripMenuItem
+            // 
+            this.clearFavouritesToolStripMenuItem.Name = "clearFavouritesToolStripMenuItem";
+            this.clearFavouritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.clearFavouritesToolStripMenuItem.Text = "Clear Favourites";
+            this.clearFavouritesToolStripMenuItem.Click += new System.EventHandler(this.clearFavouritesToolStripMenuItem_Click);
+            // 
+            // clearHistoryToolStripMenuItem
+            // 
+            this.clearHistoryToolStripMenuItem.Name = "clearHistoryToolStripMenuItem";
+            this.clearHistoryToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.clearHistoryToolStripMenuItem.Text = "Clear History";
+            this.clearHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearHistoryToolStripMenuItem_Click);
             // 
             // Browser
             // 
@@ -203,6 +233,10 @@
         private System.Windows.Forms.ToolStripMenuItem favouritesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem historyToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private ToolStripMenuItem clearFavouritesToolStripMenuItem;
+        private ToolStripMenuItem clearHistoryToolStripMenuItem;
     }
 }
 
