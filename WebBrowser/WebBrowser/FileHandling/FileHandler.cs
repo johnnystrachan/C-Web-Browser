@@ -12,8 +12,10 @@ namespace WebBrowser.FileHandling
     class FileHandler
     {
 
-        private static readonly string FavouritePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "favourites.json");
-        private static readonly string HistoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "history.txt");
+        private static readonly string FavouritePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "favourites.json");
+        private static readonly string HistoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "history.txt");
+        private static readonly string HomePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "home.txt");
+
         public FileHandler()
         {
             if ((bool)Properties.Settings.Default["FirstRun"])
@@ -22,7 +24,8 @@ namespace WebBrowser.FileHandling
                 Properties.Settings.Default.Save();
                 var ff = File.Create(FavouritePath);
                 var fh = File.Create(HistoryPath);
-
+                var fGine = File.Create(HomePath);
+                File.WriteAllText(HomePath, "http://www.macs.hw.ac.uk/~hwloidl/Courses/F21SC/");
             }
         }
      
@@ -45,12 +48,24 @@ namespace WebBrowser.FileHandling
         }
 
         public void WriteFavourites(List<Favourite> favourites)
-        {       
+        {
+            Console.WriteLine("File handler favourites");
+            favourites.ForEach(x => Console.WriteLine(x.URL));
             using (File.Create(FavouritePath))
-            File.WriteAllText(
-                FavouritePath,
-                JsonConvert.SerializeObject(favourites)
-                );
+            {
+               // try
+                //{
+                    File.WriteAllText(
+                  FavouritePath,
+                  JsonConvert.SerializeObject(favourites)
+                  );
+                //}catch(System.IO.IOException e)
+                //{
+                  //  Console.Error.WriteLine(e.Message);
+                //}
+              
+            }
+                
         }
 
         public void AddToHistory(string url)

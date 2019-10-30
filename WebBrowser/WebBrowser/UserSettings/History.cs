@@ -29,15 +29,22 @@ namespace WebBrowser
             }
         }
         
+        public struct HistoryLink
+        {
+            string url;
+            int position;
+        }
 
         private static readonly string Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "history.txt");
         private static FileHandling.FileHandler IOHandler = new FileHandling.FileHandler();
         private static LinkedList<string> _localHistory;
         static string _currentUrl;
-
+        private static Stack<string> _backStack, _frontStack;
         public History(){
-            _currentUrl = "default";
+            _currentUrl = "http://www.macs.hw.ac.uk/~hwloidl/Courses/F21SC/";
             _localHistory = new LinkedList<string>();
+            _backStack = new Stack<string>();
+            _frontStack = new Stack<string>();
         }
        /// <summary>
        /// Adds a url to session & persistent history 
@@ -47,7 +54,7 @@ namespace WebBrowser
         {
 
             IOHandler.AddToHistory(url);
-
+            _backStack.Push(_currentUrl);
             if(_localHistory.First == null)
             {
                 _localHistory.AddFirst(url);
@@ -95,17 +102,20 @@ namespace WebBrowser
         public string GoBack()
         {
 
+            var backUrl = "";
             if (_currentUrl == "default" || _currentUrl == null)//sanity check
             {
                 throw new SessionHistoryException("You don't have a local history yet. Please navigate to a website.");
             }
-            var curr = _localHistory.Find(_currentUrl);
-            if(curr?.Previous == null)
+            try
+            {
+                backUrl = _backStack.Pop();
+            }catch(Exception e)
             {
                 throw new SessionHistoryException("No previous URL in your session history");
             }
-            var back = curr.Previous;
-            _currentUrl = back.Value;
+            _frontStack.Push(_currentUrl);
+            _currentUrl = backUrl;
             return _currentUrl;
         }
 
@@ -115,17 +125,21 @@ namespace WebBrowser
         /// <returns>string currentUrl</returns>
         public string GoForward()
         {
+           var frontUrl = "";
             if (_currentUrl == "default" || _currentUrl == null)//sanity check
             {
                 throw new SessionHistoryException("You don't have a local history yet. Please navigate to a website.");
             }
-            var curr = _localHistory.Find(_currentUrl);
-            if(curr?.Next == null)
+            try
+            {
+                frontUrl = _frontStack.Pop();
+            }
+            catch (Exception e)
             {
                 throw new SessionHistoryException("No next URL in your session history");
             }
-            var forward = curr.Next;
-            _currentUrl = forward.Value;
+            _backStack.Push(_currentUrl);
+            _currentUrl = frontUrl;
             return _currentUrl;
         }
 

@@ -44,7 +44,12 @@ namespace WebBrowser
                 WriteFavourites();
             }else
             {
-                //TODO: Throw error if already in list, handle wherever it needs to be handled
+
+                var index = _favourites.FindIndex(f => f.URL.Equals(url));
+                Favourite[] favArr = _favourites.ToArray();
+                favArr[index].Name = name;
+                _favourites = favArr.ToList();
+                WriteFavourites();
             }
 
             //TODO: Home page functionality
@@ -59,6 +64,20 @@ namespace WebBrowser
         {
             return _favourites;
        
+        }
+
+        public string GetFavouriteName(string url)
+        {
+ 
+            
+            foreach (Favourite fav in _favourites)
+            {
+                if (fav.URL.Equals(url))
+                {
+                    return fav.Name;
+                }
+            }
+            return null;
         }
 
         /// <summary>

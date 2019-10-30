@@ -36,7 +36,7 @@ namespace WebBrowser
         public string Handle(string s)
         {
             // Create a request for the URL. 
-            if (!this.Format(s)) return "Invalid URL. Try formatting it as 'http://www.website.suffix'";
+            if (!this.Format(s)) return "Invalid URL. Try formatting it as 'http://www.website.suffix'. The website you tried to access was "+s;
             WebRequest request = null;
             try
             {
@@ -77,7 +77,7 @@ namespace WebBrowser
             dataStream.Close();
             response.Close();
             History.AddToHistory(s);
-            return response.StatusCode+System.Environment.NewLine+responseFromServer;
+            return  (int)response.StatusCode + System.Environment.NewLine + response.StatusDescription + System.Environment.NewLine+responseFromServer;
         }
 
         /// <summary>

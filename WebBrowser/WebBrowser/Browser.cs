@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using WebBrowser.Properties;
+using WebBrowser.UserSettings;
 using WebBrowser.Views;
 
 namespace WebBrowser
@@ -13,7 +14,7 @@ namespace WebBrowser
         private readonly History _history = new History();
         private readonly FavouritesList _favourites = new FavouritesList();
         private string _url;
-
+        private Home home = new Home("http://www.macs.hw.ac.uk/~hwloidl/Courses/F21SC/");
         public Browser()
         {
             InitializeComponent();
@@ -33,18 +34,18 @@ namespace WebBrowser
             {
                 tempUrl.Click += (s, e) =>
                 {
-                    url_box.Text = _url;
+                    url_box.Text = tempUrl.Text;
                     navigate_button_Click_1(s, e);
                 };
             }
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void UpdateUserFavourites()
         { 
             var favouritesList = _favourites.GetFavourites();
-            if(favouritesList.Count <= 0)
-            {
                 for (int i = favouritesToolStripMenuItem.DropDownItems.Count - 1; i >= 0; i--)
                 {
                     if (favouritesToolStripMenuItem.DropDownItems[i] is ToolStripMenuItem)
@@ -52,7 +53,7 @@ namespace WebBrowser
                         favouritesToolStripMenuItem.DropDownItems.RemoveAt(i); 
                     }
                 }
-            }
+            
             foreach (var tempFav in favouritesList)
             {
                if (!favouritesToolStripMenuItem.DropDownItems
@@ -68,6 +69,12 @@ namespace WebBrowser
                    };
                }
            }
+        }
+
+        private void browser_Load(object sender, EventArgs e)
+        {
+            url_box.Text = home.GetHome();
+            navigate_button_Click_1(sender, e);
         }
 
         private void browser_FormClosed(object sender, EventArgs e)
@@ -88,19 +95,19 @@ namespace WebBrowser
         {
         }
 
-        private void navigate_button_Click_1(object sender, EventArgs e)
+        private void navigate_button_Click_1(object sender, EventArgs eArgs)
         {
             _url = url_box.Text;
             try
             {
                 html_box.Text = _handler.Handle(_url);
                 title_label.Text = _handler.GetTitle(html_box.Text);
-                var tempURL = historyToolStripMenuItem.DropDownItems.Add(_url);
-                tempURL.Click += (s, err) =>
-                {
-                    url_box.Text = _url;
-                    navigate_button_Click_1(s, e);
-                };
+               var tempURL = historyToolStripMenuItem.DropDownItems.Add(_url);
+               tempURL.Click += (s, e) =>
+               {
+                   url_box.Text = tempURL.Text;
+                   navigate_button_Click_1(s, e);
+               };
             }
             catch (ConnectionHandler.HttpErrorCodeException err)
             {
@@ -154,7 +161,14 @@ namespace WebBrowser
 
         private void favourite_button_Click_1(object sender, EventArgs e)
         {
-            var add_favourite_form = new FavouriteEditForm();
+
+            var add_favourite_form = new FavouriteEditForm(url_box.Text, title_label.Text);
+            var tempFavName = _favourites.GetFavouriteName(url_box.Text);
+            if(tempFavName != null)
+            {
+                add_favourite_form = new FavouriteEditForm(url_box.Text, tempFavName);
+            }
+            
             add_favourite_form.ShowDialog(this);
             UpdateUserFavourites();
             
@@ -185,6 +199,27 @@ namespace WebBrowser
         //        // item.Click -= item_Click;
         //        item.Dispose();
         //    }
+        }
+
+        private void setCurrentPageAsHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(url_box.Text.Trim() == "" || home.GetHome() == null || !_handler.Format(url_box.Text.Trim()))
+            {
+                MessageBox.Show("Your homepage must be a valid URL!");
+            }else if (url_box.Text.Trim() == home.GetHome())
+            {
+                MessageBox.Show("This is already your homepage!");
+            }
+            home.EditHome(url_box.Text.Trim());
+        }
+
+        private void home_button_Click(object sender, EventArgs e)
+        {
+            if (home.GetHome() != "" &&  home.GetHome() != null){ //sanity check, shouldn't happen 
+                html_box.Text = "CLICK!";
+                url_box.Text = home.GetHome();
+                this.navigate_button_Click_1(sender, e);
+            }
         }
 
 

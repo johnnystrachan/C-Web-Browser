@@ -124,6 +124,7 @@
             this.Controls.Add(this.add_favourite_label);
             this.Name = "FavouriteEditForm";
             this.Text = "Edit Favourite Page";
+            this.Load += new System.EventHandler(this.FavouriteEditForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

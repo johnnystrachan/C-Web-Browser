@@ -46,6 +46,7 @@ namespace WebBrowser
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearFavouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setCurrentPageAsHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1.SuspendLayout();
@@ -89,6 +90,7 @@ namespace WebBrowser
             this.home_button.TabIndex = 6;
             this.home_button.Text = "Home";
             this.home_button.UseVisualStyleBackColor = true;
+            this.home_button.Click += new System.EventHandler(this.home_button_Click);
             // 
             // html_box
             // 
@@ -153,13 +155,13 @@ namespace WebBrowser
             // favouritesToolStripMenuItem
             // 
             this.favouritesToolStripMenuItem.Name = "favouritesToolStripMenuItem";
-            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.favouritesToolStripMenuItem.Text = "Favourites";
             // 
             // historyToolStripMenuItem
             // 
             this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
-            this.historyToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.historyToolStripMenuItem.Text = "History";
             // 
             // contextMenuStrip1
@@ -168,24 +170,32 @@ namespace WebBrowser
             this.favouritesToolStripMenuItem,
             this.historyToolStripMenuItem,
             this.clearFavouritesToolStripMenuItem,
-            this.clearHistoryToolStripMenuItem});
+            this.clearHistoryToolStripMenuItem,
+            this.setCurrentPageAsHomeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(213, 114);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // clearFavouritesToolStripMenuItem
             // 
             this.clearFavouritesToolStripMenuItem.Name = "clearFavouritesToolStripMenuItem";
-            this.clearFavouritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.clearFavouritesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.clearFavouritesToolStripMenuItem.Text = "Clear Favourites";
             this.clearFavouritesToolStripMenuItem.Click += new System.EventHandler(this.clearFavouritesToolStripMenuItem_Click);
             // 
             // clearHistoryToolStripMenuItem
             // 
             this.clearHistoryToolStripMenuItem.Name = "clearHistoryToolStripMenuItem";
-            this.clearHistoryToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.clearHistoryToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.clearHistoryToolStripMenuItem.Text = "Clear History";
             this.clearHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearHistoryToolStripMenuItem_Click);
+            // 
+            // setCurrentPageAsHomeToolStripMenuItem
+            // 
+            this.setCurrentPageAsHomeToolStripMenuItem.Name = "setCurrentPageAsHomeToolStripMenuItem";
+            this.setCurrentPageAsHomeToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.setCurrentPageAsHomeToolStripMenuItem.Text = "Set Current Page as Home";
+            this.setCurrentPageAsHomeToolStripMenuItem.Click += new System.EventHandler(this.setCurrentPageAsHomeToolStripMenuItem_Click);
             // 
             // Column1
             // 
@@ -214,6 +224,7 @@ namespace WebBrowser
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Apex Browser";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.browser_FormClosed);
+            this.Load += new System.EventHandler(this.browser_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -238,6 +249,7 @@ namespace WebBrowser
         private DataGridViewTextBoxColumn Column2;
         private ToolStripMenuItem clearFavouritesToolStripMenuItem;
         private ToolStripMenuItem clearHistoryToolStripMenuItem;
+        private ToolStripMenuItem setCurrentPageAsHomeToolStripMenuItem;
     }
 }
 

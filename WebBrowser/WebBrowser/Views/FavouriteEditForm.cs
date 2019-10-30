@@ -13,10 +13,19 @@ namespace WebBrowser.Views
     public partial class FavouriteEditForm : Form
     {
         ConnectionHandler cHandler = new ConnectionHandler();
-
-        public FavouriteEditForm()
+        private string url;
+        private string title;
+        public FavouriteEditForm(string url, string title)
         {
             InitializeComponent();
+            this.url = url;
+            this.title = title;
+        }
+
+        private void FavouriteEditForm_Load(object sender, EventArgs e)
+        {
+            name_box.Text = this.title;
+            url_box.Text = this.url;
         }
 
         private void done_button_Click(object sender, EventArgs e)
@@ -44,5 +53,6 @@ namespace WebBrowser.Views
         {
             FavouritesList.RemoveFavourite(url_box.Text.Trim());
         }
+
     }
 }
