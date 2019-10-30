@@ -17,16 +17,18 @@ namespace WebBrowser
         public Browser()
         {
             InitializeComponent();
-            LoadUserData();
+            LoadUserHistory();
+            UpdateUserFavourites();
         }
 
         /// <summary>
         /// Loads new history, used when user navigates to a new page, to add the latest website visited into the GUI.
         /// </summary>
-        private void LoadUserData()
+        private void LoadUserHistory()
         {
             var historyList = _history.GetHistory();
 
+            historyToolStripMenuItem.DropDownItems.Clear();
             foreach (var tempUrl in historyList.Select(currUrl => historyToolStripMenuItem.DropDownItems.Add(currUrl)))
             {
                 tempUrl.Click += (s, e) =>
@@ -36,25 +38,42 @@ namespace WebBrowser
                 };
             }
 
-
-            var favouritesList = _favourites.GetFavourites();
-            foreach (var tempFav in favouritesList)
-            {
-
-                    var fav = favouritesToolStripMenuItem.DropDownItems.Add(tempFav.Name);
-
-                    fav.Click += (s, e) =>
-                    {
-                        url_box.Text = tempFav.URL;
-                        navigate_button_Click_1(s, e);
-                    };
-
-            }
-            
-
         }
 
-     
+        public void UpdateUserFavourites()
+        { 
+            var favouritesList = _favourites.GetFavourites();
+            if(favouritesList.Count <= 0)
+            {
+                for (int i = favouritesToolStripMenuItem.DropDownItems.Count - 1; i >= 0; i--)
+                {
+                    if (favouritesToolStripMenuItem.DropDownItems[i] is ToolStripMenuItem)
+                    {
+                        favouritesToolStripMenuItem.DropDownItems.RemoveAt(i); 
+                    }
+                }
+            }
+            foreach (var tempFav in favouritesList)
+            {
+               if (!favouritesToolStripMenuItem.DropDownItems
+                   .Cast<ToolStripMenuItem>()
+                     .Any(x => x.Text == tempFav.Name))
+               {
+                var fav = favouritesToolStripMenuItem.DropDownItems.Add(tempFav.Name);
+           
+                   fav.Click += (s, e) =>
+                   {
+                       url_box.Text = tempFav.URL;
+                       navigate_button_Click_1(s, e);
+                   };
+               }
+           }
+        }
+
+        private void browser_FormClosed(object sender, EventArgs e)
+        {
+            FavouritesList.WriteFavourites();
+        }
 
         private void url_box_TextChanged(object sender, EventArgs e)
         {
@@ -76,14 +95,19 @@ namespace WebBrowser
             {
                 html_box.Text = _handler.Handle(_url);
                 title_label.Text = _handler.GetTitle(html_box.Text);
+                var tempURL = historyToolStripMenuItem.DropDownItems.Add(_url);
+                tempURL.Click += (s, err) =>
+                {
+                    url_box.Text = _url;
+                    navigate_button_Click_1(s, e);
+                };
             }
             catch (ConnectionHandler.HttpErrorCodeException err)
             {
                 html_box.Text = err.Message;
                 title_label.Text = "";
             }
-           
-            LoadUserData();
+            favourite_button.BackgroundImage = !FavouritesList.IsFavourite(url_box.Text) ? Resources.star_black : Resources.star_yellow;
         }
 
         private void forward_button_Click(object sender, EventArgs e)
@@ -122,34 +146,47 @@ namespace WebBrowser
             html_box.Text = _handler.Handle(url_box.Text);
         }
 
-        private void menu_button_Click(object sender, EventArgs e)
+        private void menu_button_Click(object sender, EventArgs eArgs)
         {
             contextMenuStrip1.Show(menu_button, new Point(0, menu_button.Height));
+           
         }
 
         private void favourite_button_Click_1(object sender, EventArgs e)
         {
-            favourite_button.BackgroundImage = !_favourites.IsFavourite(url_box.Text) ? Resources.star_black : Resources.star_yellow;
             var add_favourite_form = new FavouriteEditForm();
-            add_favourite_form.Show();
-
+            add_favourite_form.ShowDialog(this);
+            UpdateUserFavourites();
+            
         }
 
-        private void favouritesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
+   
+
 
         private void clearFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _favourites.ClearFavourites();
-            LoadUserData();
+            FavouritesList.ClearFavourites();
+            UpdateUserFavourites();
         }
 
         private void clearHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _history.ClearHistory();
-            LoadUserData();
+            LoadUserHistory();
         }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+        //    var favouritesList = _favourites.GetFavourites();
+        //
+        //    var favItems = favouritesToolStripMenuItem.DropDownItems.Cast<ToolStripDropDownItem>().ToArray();
+        //    foreach (ToolStripDropDownItem item in favItems)
+        //    {
+        //        // item.Click -= item_Click;
+        //        item.Dispose();
+        //    }
+        }
+
 
 
 

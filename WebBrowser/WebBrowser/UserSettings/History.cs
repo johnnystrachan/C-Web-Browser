@@ -31,12 +31,13 @@ namespace WebBrowser
         
 
         private static readonly string Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "history.txt");
-
-        private static LinkedList<string> _localHistory = new LinkedList<string>();
+        private static FileHandling.FileHandler IOHandler = new FileHandling.FileHandler();
+        private static LinkedList<string> _localHistory;
         static string _currentUrl;
 
         public History(){
             _currentUrl = "default";
+            _localHistory = new LinkedList<string>();
         }
        /// <summary>
        /// Adds a url to session & persistent history 
@@ -44,23 +45,8 @@ namespace WebBrowser
        /// <param name="url"></param>
         public static void AddToHistory(string url)
         {
-            if ((bool) Properties.Settings.Default["FirstRun"])
-            {
-                Properties.Settings.Default["FirstRun"] = false;
-                Properties.Settings.Default.Save();
-                Directory.CreateDirectory("ApexBrowser");
-                var fs = File.Create(Path);
-                
-            }
-            if (File.Exists(Path)){
-                File.AppendAllText(Path, url + Environment.NewLine);
-            }
-            else
-            {
-                var sw = new StreamWriter(Path);
-                sw.Write(url+Environment.NewLine);
-                sw.Close();
-            }
+
+            IOHandler.AddToHistory(url);
 
             if(_localHistory.First == null)
             {
@@ -129,6 +115,10 @@ namespace WebBrowser
         /// <returns>string currentUrl</returns>
         public string GoForward()
         {
+            if (_currentUrl == "default" || _currentUrl == null)//sanity check
+            {
+                throw new SessionHistoryException("You don't have a local history yet. Please navigate to a website.");
+            }
             var curr = _localHistory.Find(_currentUrl);
             if(curr?.Next == null)
             {

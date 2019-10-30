@@ -13,7 +13,7 @@ namespace WebBrowser.Views
     public partial class FavouriteEditForm : Form
     {
         ConnectionHandler cHandler = new ConnectionHandler();
-        private readonly FavouritesList _favourites = new FavouritesList();
+
         public FavouriteEditForm()
         {
             InitializeComponent();
@@ -31,8 +31,7 @@ namespace WebBrowser.Views
                 return;
             }
 
-            _favourites.AddFavourite(name_box.Text.Trim(), url_box.Text.Trim());
-
+            FavouritesList.AddFavourite(name_box.Text.Trim(), url_box.Text.Trim());
             this.Hide();
         }
 
@@ -43,7 +42,7 @@ namespace WebBrowser.Views
 
         private void remove_button_Click(object sender, EventArgs e)
         {
-            _favourites.RemoveFavourite(url_box.Text.Trim());
+            FavouritesList.RemoveFavourite(url_box.Text.Trim());
         }
     }
 }

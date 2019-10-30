@@ -44,10 +44,10 @@ namespace WebBrowser
             this.favouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clearFavouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,7 +155,6 @@ namespace WebBrowser
             this.favouritesToolStripMenuItem.Name = "favouritesToolStripMenuItem";
             this.favouritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.favouritesToolStripMenuItem.Text = "Favourites";
-            this.favouritesToolStripMenuItem.Click += new System.EventHandler(this.favouritesToolStripMenuItem_Click);
             // 
             // historyToolStripMenuItem
             // 
@@ -172,14 +171,7 @@ namespace WebBrowser
             this.clearHistoryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(159, 114);
-            // 
-            // Column1
-            // 
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.Name = "Column2";
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // clearFavouritesToolStripMenuItem
             // 
@@ -194,6 +186,14 @@ namespace WebBrowser
             this.clearHistoryToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.clearHistoryToolStripMenuItem.Text = "Clear History";
             this.clearHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearHistoryToolStripMenuItem_Click);
+            // 
+            // Column1
+            // 
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.Name = "Column2";
             // 
             // Browser
             // 
@@ -213,6 +213,7 @@ namespace WebBrowser
             this.Name = "Browser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Apex Browser";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.browser_FormClosed);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
