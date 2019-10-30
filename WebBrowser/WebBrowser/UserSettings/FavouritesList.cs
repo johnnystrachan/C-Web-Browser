@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+
 
 
 namespace WebBrowser
@@ -24,10 +22,10 @@ namespace WebBrowser
 
         private static List<Favourite> _favourites;
         private static FileHandling.FileHandler IOHandler = new FileHandling.FileHandler();
-        private static readonly string FavouritePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "favourites.json");
+        
 
         public FavouritesList() {
-            _favourites = IOHandler.getFavouritesFromFile();
+            _favourites = IOHandler.GetFavouritesFromFile();
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace WebBrowser
             if (!_favourites.Any(fav => fav.URL.Equals(url)))
             {
                 _favourites.Add(newFavourite);              
-                WriteFavourites();
+              //  WriteFavourites();
             }else
             {
 
@@ -49,11 +47,8 @@ namespace WebBrowser
                 Favourite[] favArr = _favourites.ToArray();
                 favArr[index].Name = name;
                 _favourites = favArr.ToList();
-                WriteFavourites();
+               // WriteFavourites();
             }
-
-            //TODO: Home page functionality
-            //TODO: fix duplicate favourites being added         
 
         }
         /// <summary>
@@ -66,18 +61,14 @@ namespace WebBrowser
        
         }
 
+        /// <summary>
+        /// Loop through favourites to find name of favourite in question
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>Returns name of favourite as a string</returns>
         public string GetFavouriteName(string url)
         {
- 
-            
-            foreach (Favourite fav in _favourites)
-            {
-                if (fav.URL.Equals(url))
-                {
-                    return fav.Name;
-                }
-            }
-            return null;
+            return (from fav in _favourites where fav.URL.Equals(url) select fav.Name).FirstOrDefault();
         }
 
         /// <summary>
@@ -96,12 +87,15 @@ namespace WebBrowser
         /// <param name="url"></param>
         public static void RemoveFavourite(string url)
         {
-            foreach (var fav in _favourites.Where(fav => fav.URL.Equals(url.Trim())))
+            for (var i = _favourites.Count - 1; i >= 0; i--)
             {
-                _favourites.Remove(fav);
+                if (_favourites[i].URL.Equals(url)) _favourites.RemoveAt(i);
             }
         }
-
+        
+        /// <summary>
+        /// Method that writes the currnet favourites list to file
+        /// </summary>
         public static void WriteFavourites()
         {
             IOHandler.WriteFavourites(_favourites);
@@ -115,7 +109,7 @@ namespace WebBrowser
         public static void ClearFavourites()
         {
             _favourites = new List<Favourite>();
-            IOHandler.Delete(FavouritePath);
+            IOHandler.Delete(FileHandling.FileHandler.FavouritePath);
         }
 
     }

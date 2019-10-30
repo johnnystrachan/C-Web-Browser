@@ -31,6 +31,7 @@ namespace WebBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Browser));
             this.back_button = new System.Windows.Forms.Button();
             this.forward_button = new System.Windows.Forms.Button();
             this.refresh_button = new System.Windows.Forms.Button();
@@ -49,46 +50,51 @@ namespace WebBrowser
             this.setCurrentPageAsHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.code_label = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // back_button
             // 
+            this.back_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("back_button.BackgroundImage")));
+            this.back_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.back_button.Location = new System.Drawing.Point(31, 25);
             this.back_button.Name = "back_button";
             this.back_button.Size = new System.Drawing.Size(52, 21);
             this.back_button.TabIndex = 2;
-            this.back_button.Text = "Back";
             this.back_button.UseVisualStyleBackColor = true;
             this.back_button.Click += new System.EventHandler(this.back_button_Click);
             // 
             // forward_button
             // 
+            this.forward_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("forward_button.BackgroundImage")));
+            this.forward_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.forward_button.Location = new System.Drawing.Point(89, 25);
             this.forward_button.Name = "forward_button";
             this.forward_button.Size = new System.Drawing.Size(59, 21);
             this.forward_button.TabIndex = 3;
-            this.forward_button.Text = "Forward";
             this.forward_button.UseVisualStyleBackColor = true;
             this.forward_button.Click += new System.EventHandler(this.forward_button_Click);
             // 
             // refresh_button
             // 
-            this.refresh_button.Location = new System.Drawing.Point(154, 25);
+            this.refresh_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("refresh_button.BackgroundImage")));
+            this.refresh_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.refresh_button.Location = new System.Drawing.Point(154, 24);
             this.refresh_button.Name = "refresh_button";
-            this.refresh_button.Size = new System.Drawing.Size(52, 21);
+            this.refresh_button.Size = new System.Drawing.Size(52, 22);
             this.refresh_button.TabIndex = 4;
-            this.refresh_button.Text = "Refresh";
             this.refresh_button.UseVisualStyleBackColor = true;
             this.refresh_button.Click += new System.EventHandler(this.refresh_button_Click);
             // 
             // home_button
             // 
+            this.home_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("home_button.BackgroundImage")));
+            this.home_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.home_button.Location = new System.Drawing.Point(789, 24);
             this.home_button.Name = "home_button";
             this.home_button.Size = new System.Drawing.Size(52, 21);
             this.home_button.TabIndex = 6;
-            this.home_button.Text = "Home";
             this.home_button.UseVisualStyleBackColor = true;
             this.home_button.Click += new System.EventHandler(this.home_button_Click);
             // 
@@ -101,7 +107,6 @@ namespace WebBrowser
             this.html_box.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.html_box.Size = new System.Drawing.Size(1000, 522);
             this.html_box.TabIndex = 7;
-            this.html_box.TextChanged += new System.EventHandler(this.html_box_TextChanged);
             // 
             // url_box
             // 
@@ -109,7 +114,6 @@ namespace WebBrowser
             this.url_box.Name = "url_box";
             this.url_box.Size = new System.Drawing.Size(513, 20);
             this.url_box.TabIndex = 8;
-            this.url_box.TextChanged += new System.EventHandler(this.url_box_TextChanged);
             this.url_box.KeyDown += new System.Windows.Forms.KeyEventHandler(this.url_box_keyDown);
             // 
             // navigate_button
@@ -124,11 +128,12 @@ namespace WebBrowser
             // 
             // menu_button
             // 
+            this.menu_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menu_button.BackgroundImage")));
+            this.menu_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.menu_button.Location = new System.Drawing.Point(894, 24);
             this.menu_button.Name = "menu_button";
             this.menu_button.Size = new System.Drawing.Size(52, 21);
             this.menu_button.TabIndex = 10;
-            this.menu_button.Text = "Menu";
             this.menu_button.UseVisualStyleBackColor = true;
             this.menu_button.Click += new System.EventHandler(this.menu_button_Click);
             // 
@@ -174,7 +179,6 @@ namespace WebBrowser
             this.setCurrentPageAsHomeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(213, 114);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // clearFavouritesToolStripMenuItem
             // 
@@ -205,11 +209,20 @@ namespace WebBrowser
             // 
             this.Column2.Name = "Column2";
             // 
+            // code_label
+            // 
+            this.code_label.AutoSize = true;
+            this.code_label.Location = new System.Drawing.Point(728, 9);
+            this.code_label.Name = "code_label";
+            this.code_label.Size = new System.Drawing.Size(0, 13);
+            this.code_label.TabIndex = 13;
+            // 
             // Browser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 573);
+            this.Controls.Add(this.code_label);
             this.Controls.Add(this.title_label);
             this.Controls.Add(this.menu_button);
             this.Controls.Add(this.navigate_button);
@@ -250,6 +263,7 @@ namespace WebBrowser
         private ToolStripMenuItem clearFavouritesToolStripMenuItem;
         private ToolStripMenuItem clearHistoryToolStripMenuItem;
         private ToolStripMenuItem setCurrentPageAsHomeToolStripMenuItem;
+        private Label code_label;
     }
 }
 

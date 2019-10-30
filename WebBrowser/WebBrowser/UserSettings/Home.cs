@@ -1,33 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace WebBrowser.UserSettings
 {
     class Home
     {
-        private string url;
-        private static readonly string HomePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "home.txt");
+        private string _url;
         public Home(string url)
         {
-            this.url = url;
+            this._url = url;
         }
 
+        /// <summary>
+        /// Method that allows to edit the home url by updating the object's url property, as well as writing the new url to the home.txt file
+        /// </summary>
+        /// <param name="url"></param>
         public void EditHome(string url)
         {
-            this.url = url;
+            this._url = url;
             File.WriteAllText(
-                 HomePath,
+                 FileHandling.FileHandler.HomePath,
                  url
                  );
         }
 
+        //return home url
         public string GetHome()
         {
-            return this.url;
+            return this._url;
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace WebBrowser
@@ -31,12 +28,12 @@ namespace WebBrowser
         
         public struct HistoryLink
         {
-            string url;
-            int position;
+            string _url;
+            int _position;
         }
 
-        private static readonly string Path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "history.txt");
-        private static FileHandling.FileHandler IOHandler = new FileHandling.FileHandler();
+      
+        private static FileHandling.FileHandler _ioHandler = new FileHandling.FileHandler();
         private static LinkedList<string> _localHistory;
         static string _currentUrl;
         private static Stack<string> _backStack, _frontStack;
@@ -53,7 +50,7 @@ namespace WebBrowser
         public static void AddToHistory(string url)
         {
 
-            IOHandler.AddToHistory(url);
+            _ioHandler.AddToHistory(url);
             _backStack.Push(_currentUrl);
             if(_localHistory.First == null)
             {
@@ -77,7 +74,7 @@ namespace WebBrowser
             StreamReader sr = null;
             try
             {
-               sr = new StreamReader(Path);
+               sr = new StreamReader(FileHandling.FileHandler.HistoryPath);
             }catch(Exception e)
             {
                 Console.Error.WriteLine(e.Message);
@@ -143,9 +140,12 @@ namespace WebBrowser
             return _currentUrl;
         }
 
+        /// <summary>
+        /// A method that clears the history by setting to an empty list, and deleting the history file. 
+        /// </summary>
         public void ClearHistory()
         {
-          File.Delete(Path);
+          File.Delete(FileHandling.FileHandler.HistoryPath);
           _localHistory = new LinkedList<string>();
         }
     }

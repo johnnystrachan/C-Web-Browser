@@ -1,32 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace WebBrowser
 {
     internal class ConnectionHandler
     {
+        /// <summary>
+        /// A custom Exception to handle Http errors outside the scope of those asked to be handled in coursework specification 
+        /// </summary>
         public class HttpErrorCodeException : Exception
         {
+            private int code;
             public HttpErrorCodeException()
             {
             }
-
             public HttpErrorCodeException(string message)
+            : base(message)
+            {
+            }
+            public HttpErrorCodeException(int code, string message)
                 : base(message)
             {
+                this.code = code;
             }
 
             public HttpErrorCodeException(string message, Exception inner)
                 : base(message, inner)
             {
             }
+
+            public int GetCode()
+            {
+                return this.code;
+            }
+
         }
+
+
+        private int _code;
+        private string _description;
         public ConnectionHandler(){}
         /// <summary>
         /// Method that handles a connection attempt to a given URL, and returns HTML
@@ -52,6 +66,7 @@ namespace WebBrowser
             // Get the response.
             HttpWebResponse response;
 
+            //try to get response from server, catch a web exception if unable.
             try
             {
                 response = (HttpWebResponse)request.GetResponse();
@@ -76,8 +91,19 @@ namespace WebBrowser
             reader.Close();
             dataStream.Close();
             response.Close();
+            //since conneciton made, we can add link to history 
             History.AddToHistory(s);
-            return  (int)response.StatusCode + System.Environment.NewLine + response.StatusDescription + System.Environment.NewLine+responseFromServer;
+            _code = (int) response.StatusCode;
+            _description = response.StatusDescription;
+            //return string containing response code, description, and response contents.
+            return  responseFromServer;
+        }
+
+
+        public string GetCode()
+        {
+            return _code + " | " + _description;
+            
         }
 
         /// <summary>
@@ -118,13 +144,13 @@ namespace WebBrowser
             switch (code)
             {
                 case HttpStatusCode.BadRequest:
-                    throw new HttpErrorCodeException( "400 - Bad Request. " + System.Environment.NewLine + "Please check you haven't sent a malformed request and try again.");
+                    throw new HttpErrorCodeException((int)HttpStatusCode.BadRequest, "400 - Bad Request. " + System.Environment.NewLine + "Please check you haven't sent a malformed request and try again.");
                 case HttpStatusCode.Forbidden:
-                    throw new HttpErrorCodeException("403 - Forbidden." + System.Environment.NewLine + "Please check your credentials - it appears you don't have access to this link");
+                    throw new HttpErrorCodeException((int)HttpStatusCode.Forbidden, "403 - Forbidden." + System.Environment.NewLine + "Please check your credentials - it appears you don't have access to this link");
                 case HttpStatusCode.NotFound:
-                    throw new HttpErrorCodeException("404 - Not Found." + System.Environment.NewLine + "Please check that you entered a valid URL - the URL you entered could not be accessed");
+                    throw new HttpErrorCodeException((int) HttpStatusCode.NotFound, "404 - Not Found." + System.Environment.NewLine + "Please check that you entered a valid URL - the URL you entered could not be accessed");
                 default:
-                    throw new HttpErrorCodeException(code.ToString() + System.Environment.NewLine+ "An error occured. Please check https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for more information on your error"); 
+                    throw new HttpErrorCodeException((int) code,code.ToString() + System.Environment.NewLine+ "An error occured. Please check https://developer.mozilla.org/en-US/docs/Web/HTTP/Status for more information on your error"); 
             }
         }
 
